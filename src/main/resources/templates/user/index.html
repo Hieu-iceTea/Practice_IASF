@@ -43,8 +43,9 @@
                     <td th:text="${user.age}"></td>
                     <td th:text="${user.salary}"></td>
                     <td style="text-align: right;">
-                        <a class="btn btn-sm btn-success" href="">Edit</a>
-                        <a class="btn btn-sm btn-danger" href="">Remove</a>
+                        <a class="btn btn-sm btn-success" th:href="@{'/user/edit/' + ${user.id}}">Edit</a>
+                        <a class="btn btn-sm btn-danger" th:href="@{|/user/delete/${user.id}|}"
+                           onclick="return confirm('Are you sure delete this item?')">Remove</a>
                     </td>
                 </tr>
 

@@ -5,8 +5,7 @@ import com.example.Practice_IASF.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,29 +24,44 @@ public class UserController {
         return "user/index";
     }
 
-    /*@GetMapping(path = "/create")
-    public String create() {
+    @GetMapping(path = "/create")
+    public String create(Model model) {
 
-        return "create";
+        model.addAttribute("user", new User());
+
+        return "user/create";
     }
 
     @PostMapping(path = "/create")
-    public String store(@RequestParam String name, @RequestParam String email) {
-        User n = new User();
-        n.setName(name);
-        userRepository.save(n);
-        return "Saved";
+    public String store(@ModelAttribute User user) {
+
+        userRepository.save(user);
+
+        return "redirect:/user/index";
     }
 
-    @GetMapping(path = "/edit")
-    public String edit() {
+    @GetMapping(path = "/edit/{id}")
+    public String edit(Model model, @PathVariable int id) {
+        User user = userRepository.findById(id).orElse(null);
 
-        return "edit";
+        model.addAttribute("user", user);
+
+        return "user/edit";
     }
 
-    @PostMapping(path = "/create")
-    public String update() {
+    @PostMapping(path = "/edit")
+    public String update(@ModelAttribute User user) {
 
-        return "create";
-    }*/
+        userRepository.save(user);
+
+        return "redirect:/user/index";
+    }
+
+    @GetMapping(path = "/delete/{id}")
+    public String delete(@PathVariable int id) {
+
+        userRepository.deleteById(id);
+
+        return "redirect:/user/index";
+    }
 }
